@@ -1,54 +1,55 @@
-import React, {useState} from 'react';
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, { useState } from "react";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 import {
   AUTH_STACK,
   AuthStackParamList,
   ROOT_STACK,
-} from '@/navigation/screenTypes';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {Button} from '@/components';
-import {colors, images, sizes} from '@/utils';
-import LinearGradient from 'react-native-linear-gradient';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import InputForm from '@/components/forms/input.form';
-import {useAppContext} from '@/context/providers/app.provider';
-import {setAppState} from '@/context/reducers/app.reducer';
-import {DatePicker} from '@/components/forms/datepicker.form';
-import {setStorage, storageEnumKeys} from '@/utils/storage';
+} from "@/navigation/screenTypes";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { Button } from "@/components";
+import { colors, images, sizes } from "@/utils";
+import LinearGradient from "react-native-linear-gradient";
+import { SafeAreaView } from "react-native-safe-area-context";
+import InputForm from "@/components/forms/input.form";
+import { useAppContext } from "@/context/providers/app.provider";
+import { setAppState } from "@/context/reducers/app.reducer";
+import { DatePicker } from "@/components/forms/datepicker.form";
+import { setStorage, storageEnumKeys } from "@/utils/storage";
 
 const CreateAccountPage = ({}: NativeStackScreenProps<
   AuthStackParamList,
   AUTH_STACK.CREATE_ACCOUNT
 >) => {
-  const [gender, setGender] = useState<'male' | 'female' | null>(null);
+  const [gender, setGender] = useState<"male" | "female" | null>(null);
   const [name, setName] = useState<string | null>(null);
   const [birthday, setBirthday] = useState<Date | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const {appDispatch} = useAppContext();
+  const { appDispatch } = useAppContext();
 
   const create = async () => {
     if (gender && name && birthday) {
       await setStorage(
         storageEnumKeys.USERW,
-        JSON.stringify({gender: gender, name: name, birthday: birthday}),
+        JSON.stringify({ gender: gender, name: name, birthday: birthday })
       );
       appDispatch(
         setAppState({
-          user: {gender: gender, name: name, birthday: birthday},
+          user: { gender: gender, name: name, birthday: birthday },
           rootStack: ROOT_STACK.MAIN,
-        }),
+        })
       );
     } else {
-      setError('Fill all field!');
+      setError("Fill all field!");
     }
   };
   return (
     <LinearGradient
       colors={[colors.primary50, colors.primary]}
       style={styles.container}
-      start={{x: 0, y: 0}}
-      end={{x: 0, y: 1}}>
+      start={{ x: 0, y: 0 }}
+      end={{ x: 0, y: 1 }}
+    >
       <SafeAreaView style={styles.container}>
         <Text style={styles.title}>Fill your information</Text>
         <View style={styles.content}>
@@ -57,25 +58,27 @@ const CreateAccountPage = ({}: NativeStackScreenProps<
             <TouchableOpacity
               style={[
                 styles.imageContainer,
-                gender === 'female' && styles.selected,
+                gender === "female" && styles.selected,
               ]}
-              onPress={() => setGender('female')}>
+              onPress={() => setGender("female")}
+            >
               <Image
                 source={images.genderX}
-                style={[styles.image, {top: 10}]}
+                style={[styles.image, { top: 10 }]}
               />
             </TouchableOpacity>
             <TouchableOpacity
               style={[
                 styles.imageContainer,
-                gender === 'male' && styles.selected,
+                gender === "male" && styles.selected,
               ]}
-              onPress={() => setGender('male')}>
+              onPress={() => setGender("male")}
+            >
               <Image source={images.genderY} style={styles.image} />
             </TouchableOpacity>
           </View>
           <Text style={styles.subTitle}>Nickname:</Text>
-          <InputForm value={name} onChangeText={e => setName(e)} />
+          <InputForm value={name} onChangeText={(e) => setName(e)} />
           <Text style={styles.subTitle}>Birthday:</Text>
           <DatePicker mode="date" onDateChanged={setBirthday} />
           {error && (
@@ -104,7 +107,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: sizes.h4,
     fontWeight: 600,
-    textAlign: 'center',
+    textAlign: "center",
     color: colors.white,
     marginTop: 24,
   },
@@ -120,15 +123,15 @@ const styles = StyleSheet.create({
     color: colors.white,
   },
   genderContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
     gap: sizes.sizeMd,
   },
   imageContainer: {
     backgroundColor: colors.light,
     borderRadius: 150,
-    overflow: 'hidden',
+    overflow: "hidden",
     opacity: 80,
     borderColor: colors.light,
     borderWidth: 1,
@@ -142,7 +145,7 @@ const styles = StyleSheet.create({
     height: 160,
   },
   errorContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   errorText: {
     color: colors.error600,
@@ -151,7 +154,7 @@ const styles = StyleSheet.create({
   button: {
     height: sizes.heightLg,
     backgroundColor: colors.white,
-    marginTop: 100,
+    marginTop: 50,
   },
 });
 

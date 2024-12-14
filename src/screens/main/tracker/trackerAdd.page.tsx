@@ -1,59 +1,60 @@
-import {Button, Text} from '@/components';
-import InputForm from '@/components/forms/input.form';
-import {TRACKER_STACK, TrackerStackParamList} from '@/navigation/screenTypes';
-import {colors, sizes} from '@/utils';
-import {getStorage, setStorage, storageEnumKeys} from '@/utils/storage';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import React, {useState} from 'react';
-import {View, StyleSheet, TouchableOpacity} from 'react-native';
+import { Button, Text } from "@/components";
+import InputForm from "@/components/forms/input.form";
+import { TRACKER_STACK, TrackerStackParamList } from "@/navigation/screenTypes";
+import { colors, sizes } from "@/utils";
+import { getStorage, setStorage, storageEnumKeys } from "@/utils/storage";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import React, { useState } from "react";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 const color = [
   {
-    name: 'Light Blue',
-    hex: '#5AA9FF',
+    name: "Light Blue",
+    hex: "#5AA9FF",
   },
 
   {
-    name: 'Sky Blue',
-    hex: '#87CEEB',
+    name: "Sky Blue",
+    hex: "#87CEEB",
   },
   {
-    name: 'Deep Blue',
-    hex: '#1C4E80',
+    name: "Deep Blue",
+    hex: "#1C4E80",
   },
   {
-    name: 'Teal',
-    hex: '#20B2AA',
+    name: "Teal",
+    hex: "#20B2AA",
   },
   {
-    name: 'Soft Cyan',
-    hex: '#A1EFFF',
+    name: "Soft Cyan",
+    hex: "#A1EFFF",
   },
   {
-    name: 'Coral',
-    hex: '#FF7F50',
+    name: "Coral",
+    hex: "#FF7F50",
   },
   {
-    name: 'Sunset Orange',
-    hex: '#FF4500',
+    name: "Sunset Orange",
+    hex: "#FF4500",
   },
   {
-    name: 'Lime Green',
-    hex: '#32CD32',
+    name: "Lime Green",
+    hex: "#32CD32",
   },
   {
-    name: 'Golden Yellow',
-    hex: '#FFD700',
+    name: "Golden Yellow",
+    hex: "#FFD700",
   },
 ];
-export const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-const repeats = ['Daily', 'Weekly'];
-export type DayStatus = 'complete' | 'skip' | 'incomplete';
+export const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+const repeats = ["Daily", "Weekly"];
+export type DayStatus = "complete" | "skip" | "incomplete";
 
 export type HabitType = {
   title: string;
   color: string;
-  repeat: 'Daily' | 'Weekly';
+  repeat: "Daily" | "Weekly";
   days: string[];
+  archive: boolean;
   weeks:
     | {
         weekStartDate: string;
@@ -69,10 +70,11 @@ const TrackerAddPage = ({
   navigation,
 }: NativeStackScreenProps<TrackerStackParamList, TRACKER_STACK.ADD>) => {
   const [habit, setHabit] = useState<HabitType>({
-    title: '',
+    title: "",
     color: color[0].hex,
-    repeat: 'Daily',
+    repeat: "Daily",
     days: days,
+    archive: false,
     weeks: null,
   });
   const [error, setError] = useState<string | null>(null);
@@ -84,11 +86,11 @@ const TrackerAddPage = ({
       else updateHabit = [habit];
       const saved = await setStorage(
         storageEnumKeys.HABIT,
-        JSON.stringify(updateHabit),
+        JSON.stringify(updateHabit)
       );
       if (saved) navigation.goBack();
     } else {
-      setError('Fill all field!');
+      setError("Fill all field!");
     }
   };
   return (
@@ -96,11 +98,11 @@ const TrackerAddPage = ({
       <Text style={styles.title}>Title</Text>
       <InputForm
         value={habit?.title}
-        onChangeText={e => setHabit({...habit, title: e})}
+        onChangeText={(e) => setHabit({ ...habit, title: e })}
       />
       <Text style={styles.title}>Color</Text>
-      <View style={{flexDirection: 'row', gap: 5, flexWrap: 'wrap'}}>
-        {color.map(item => (
+      <View style={{ flexDirection: "row", gap: 5, flexWrap: "wrap" }}>
+        {color.map((item) => (
           <TouchableOpacity
             style={[
               {
@@ -115,22 +117,27 @@ const TrackerAddPage = ({
               },
             ]}
             key={item.hex}
-            onPress={() => setHabit({...habit, color: item.hex})}
+            onPress={() => setHabit({ ...habit, color: item.hex })}
           />
         ))}
       </View>
       <Text style={styles.title}>Repeat</Text>
       <View
-        style={{flexDirection: 'row', gap: 5, justifyContent: 'space-between'}}>
-        {repeats.map(item => (
+        style={{
+          flexDirection: "row",
+          gap: 5,
+          justifyContent: "space-between",
+        }}
+      >
+        {repeats.map((item) => (
           <TouchableOpacity
             style={[
               {
                 flex: 1,
                 height: sizes.height,
                 backgroundColor: colors.primary20,
-                justifyContent: 'center',
-                alignItems: 'center',
+                justifyContent: "center",
+                alignItems: "center",
                 borderRadius: 8,
               },
               habit.repeat === item && {
@@ -139,29 +146,31 @@ const TrackerAddPage = ({
               },
             ]}
             key={item}
-            onPress={() => setHabit({...habit, repeat: item as never})}>
+            onPress={() => setHabit({ ...habit, repeat: item as never })}
+          >
             <Text>{item}</Text>
           </TouchableOpacity>
         ))}
       </View>
-      {habit.repeat === 'Weekly' && (
+      {habit.repeat === "Weekly" && (
         <>
           <Text style={styles.title}>On these days</Text>
           <View
             style={{
-              flexDirection: 'row',
+              flexDirection: "row",
               gap: 5,
-              justifyContent: 'space-between',
-            }}>
-            {days.map(item => (
+              justifyContent: "space-between",
+            }}
+          >
+            {days.map((item) => (
               <TouchableOpacity
                 style={[
                   {
                     flex: 1,
                     height: sizes.height,
                     backgroundColor: colors.primary20,
-                    justifyContent: 'center',
-                    alignItems: 'center',
+                    justifyContent: "center",
+                    alignItems: "center",
                     borderRadius: 8,
                   },
                   habit.days.includes(item) && {
@@ -174,10 +183,11 @@ const TrackerAddPage = ({
                   setHabit({
                     ...habit,
                     days: habit.days.includes(item)
-                      ? habit.days.filter(day => day !== item)
+                      ? habit.days.filter((day) => day !== item)
                       : [...habit.days, item],
                   });
-                }}>
+                }}
+              >
                 <Text>{item}</Text>
               </TouchableOpacity>
             ))}
@@ -205,7 +215,7 @@ const styles = StyleSheet.create({
     marginTop: 24,
   },
   errorContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   errorText: {
     color: colors.error600,
