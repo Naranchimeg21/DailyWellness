@@ -1,12 +1,12 @@
-import {Button, Text} from '@/components';
-import {HOME_STACK, HomeStackParamList} from '@/navigation/screenTypes';
-import {colors, images, sizes} from '@/utils';
-import {getStorage, storageEnumKeys} from '@/utils/storage';
-import {useFocusEffect} from '@react-navigation/native';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import axios from 'axios';
-import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, ScrollView, Image} from 'react-native';
+import { Button, Text } from "@/components";
+import { HOME_STACK, HomeStackParamList } from "@/navigation/screenTypes";
+import { colors, images, sizes } from "@/utils";
+import { getStorage, storageEnumKeys } from "@/utils/storage";
+import { useFocusEffect } from "@react-navigation/native";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { View, StyleSheet, ScrollView, Image } from "react-native";
 
 const HomePage = ({
   navigation,
@@ -16,25 +16,25 @@ const HomePage = ({
   const getWeather = async () => {
     axios
       .get(
-        'https://api.openweathermap.org/data/2.5/weather?q=Ulaanbaatar&appid=0a9b20862dce1755236c4ac6fcec7f7e',
+        "https://api.openweathermap.org/data/2.5/weather?q=Ulaanbaatar&appid=0a9b20862dce1755236c4ac6fcec7f7e"
       )
-      .then(res => {
+      .then((res) => {
         console.log(res.data);
         setWeatherData(res.data);
       });
   };
   useFocusEffect(
     React.useCallback(() => {
-      const today = new Date().toISOString().split('T')[0];
+      const today = new Date().toISOString().split("T")[0];
 
       const getQuote = async () => {
         setQuote(
-          JSON.parse(await getStorage(`${storageEnumKeys.QUOTE}${today}`)),
+          JSON.parse(await getStorage(`${storageEnumKeys.QUOTE}${today}`))
         );
       };
       getQuote();
       getWeather();
-    }, []),
+    }, [])
   );
 
   const kelvinToCelsius = (tempK: number) => (tempK - 273.15).toFixed(1); // Convert temperature from Kelvin to Celsius
@@ -45,7 +45,7 @@ const HomePage = ({
         <Text style={styles.title}>Today's positive quote</Text>
         {quote ? (
           <>
-            <Text style={styles.subtitle}>{quote[0]?.q}</Text>
+            <Text style={styles.subtitle}>{quote.q}</Text>
             <Button
               type="outlined"
               title="More..."
@@ -65,16 +65,13 @@ const HomePage = ({
         <Text style={styles.title}>Today's weather</Text>
         {weatherData && (
           <View style={styles.weather}>
-            <View>
-              <Image
-                style={styles.weatherIcon}
-                source={{
-                  uri: `https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`,
-                }}
-              />
+            <View style={styles.temperature}>
+              <Text style={styles.temperatureVal}>
+                {kelvinToCelsius(weatherData.main.temp)}°C
+              </Text>
             </View>
 
-            <View>
+            <View style={{ marginLeft: 5 }}>
               <Text style={styles.cityName}>
                 {weatherData.name}, {weatherData.sys.country}
               </Text>
@@ -82,9 +79,6 @@ const HomePage = ({
                 {weatherData.weather[0].description}
               </Text>
             </View>
-            <Text style={styles.temperature}>
-              {kelvinToCelsius(weatherData.main.temp)}°C
-            </Text>
           </View>
         )}
         <Button
@@ -121,8 +115,8 @@ const styles = StyleSheet.create({
     padding: sizes.sizeSm,
   },
   colorYellow: {
-    backgroundColor: '#fff4a1',
-    borderColor: '#dbc93d',
+    backgroundColor: "#fff4a1",
+    borderColor: "#dbc93d",
   },
   colorGreen: {
     backgroundColor: colors.secondary100,
@@ -138,20 +132,19 @@ const styles = StyleSheet.create({
     color: colors.dark,
     fontWeight: 500,
     height: 75,
-    overflow: 'hidden',
+    overflow: "hidden",
   },
   images: {
     height: 200,
-    width: 'auto',
+    width: "auto",
   },
   weather: {
-    flexDirection: 'row',
+    flexDirection: "row",
     borderColor: colors.primary,
     borderWidth: 1,
     borderRadius: sizes.radiusSm,
-    overflow: 'hidden',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    overflow: "hidden",
+    alignItems: "center",
     paddingRight: 4,
   },
   weatherIcon: {
@@ -161,17 +154,23 @@ const styles = StyleSheet.create({
   },
   cityName: {
     fontSize: sizes.h7,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   temperature: {
+    width: 120,
+    height: 80,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  temperatureVal: {
     fontSize: sizes.h5,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: colors.primary,
-    paddingVertical: 12,
+    padding: 10,
   },
   description: {
     fontSize: sizes.body1,
-    color: '#333',
+    color: "#333",
   },
 });
 

@@ -44,8 +44,6 @@ const TrackerPage = ({}: NativeStackScreenProps<
   useFocusEffect(
     React.useCallback(() => {
       const getHabit = async () => {
-        console.log("hhh");
-
         setHabits(JSON.parse(await getStorage(`${storageEnumKeys.HABIT}`)));
       };
       getHabit();

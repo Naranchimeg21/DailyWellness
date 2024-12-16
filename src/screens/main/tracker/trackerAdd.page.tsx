@@ -82,8 +82,13 @@ const TrackerAddPage = ({
     if (habit.title.length > 1) {
       const savedHabit = await getStorage(storageEnumKeys.HABIT);
       let updateHabit: HabitType[] = [];
-      if (savedHabit) updateHabit = [...JSON.parse(savedHabit), habit];
-      else updateHabit = [habit];
+
+      if (savedHabit && JSON.parse(savedHabit || "null") !== null) {
+        updateHabit = [...JSON.parse(savedHabit), habit];
+      } else {
+        updateHabit = [habit];
+      }
+
       const saved = await setStorage(
         storageEnumKeys.HABIT,
         JSON.stringify(updateHabit)

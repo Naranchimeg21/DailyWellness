@@ -1,17 +1,19 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export enum storageEnumKeys {
-  USERW = 'USERW',
-  QUOTE = 'QUOTE',
-  HABIT = 'HABIT',
+  USERW = "USERW",
+  QUOTE = "QUOTE",
+  HABIT = "HABIT",
+  MOOD = "MOOD",
+  FAVQUOTE = "FAVQUOTE",
 }
 
 export const setStorage = async (
   key: string,
-  value: string | null | undefined,
+  value: string | null | undefined
 ): Promise<boolean> => {
   try {
-    await AsyncStorage.setItem(key, value || '');
+    await AsyncStorage.setItem(key, value || "");
     return true;
   } catch (e) {
     return false;

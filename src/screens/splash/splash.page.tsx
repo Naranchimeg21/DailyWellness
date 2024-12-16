@@ -1,17 +1,17 @@
-import React, {useCallback, useEffect, useRef} from 'react';
-import {View, StyleSheet, useWindowDimensions, Animated} from 'react-native';
+import React, { useCallback, useEffect, useRef } from "react";
+import { View, StyleSheet, useWindowDimensions, Animated } from "react-native";
 
-import {useAppContext} from '../../context/providers/app.provider';
-import {switchStack, setAppState} from '../../context/reducers/app.reducer';
-import {ROOT_STACK} from '../../navigation/screenTypes';
-import {colors, images, sizes} from '../../utils';
-import LinearGradient from 'react-native-linear-gradient';
-import {gradientMapping} from '../../components';
-import {getStorage, storageEnumKeys} from '@/utils/storage';
+import { useAppContext } from "../../context/providers/app.provider";
+import { switchStack, setAppState } from "../../context/reducers/app.reducer";
+import { ROOT_STACK } from "../../navigation/screenTypes";
+import { colors, images, sizes } from "../../utils";
+import LinearGradient from "react-native-linear-gradient";
+import { gradientMapping } from "../../components";
+import { getStorage, storageEnumKeys } from "@/utils/storage";
 
 const SplashPage: React.FC = () => {
-  const {width, height} = useWindowDimensions();
-  const {appDispatch} = useAppContext();
+  const { width, height } = useWindowDimensions();
+  const { appDispatch } = useAppContext();
 
   const onAnimationEnd = useCallback(async () => {
     const user = await getStorage(storageEnumKeys.USERW);
@@ -20,14 +20,14 @@ const SplashPage: React.FC = () => {
         setAppState({
           user: JSON.parse(user),
           rootStack: ROOT_STACK.MAIN,
-        }),
+        })
       );
     } else {
       appDispatch(switchStack(ROOT_STACK.AUTH));
     }
   }, []);
 
-  const gradientStyle = [styles.gradient, {width: width, height: height}];
+  const gradientStyle = [styles.gradient, { width: width, height: height }];
   const topRectangleAnim = useRef(new Animated.Value(-height)).current;
   const bottomRectangleAnim = useRef(new Animated.Value(height)).current;
   const leftRectangleAnim = useRef(new Animated.Value(-width)).current;
@@ -96,73 +96,73 @@ const SplashPage: React.FC = () => {
   return (
     <View style={styles.container}>
       <LinearGradient
-        colors={gradientMapping['gradient-2']}
-        start={{x: 0, y: 0.5}}
-        end={{x: 1, y: 0.5}}
+        colors={gradientMapping["gradient-2"]}
+        start={{ x: 0, y: 0.5 }}
+        end={{ x: 1, y: 0.5 }}
         style={gradientStyle}
       />
       {/* Rectangles */}
       <Animated.Image
-        source={require('@/assets/sr-y.png')}
+        source={require("@/assets/sr-y.png")}
         style={{
-          position: 'absolute',
+          position: "absolute",
           top: 0,
           left: 0,
           width: width * 0.7,
           height: height * 1.6,
-          backgroundColor: 'rgba(255,255,255,0)',
+          backgroundColor: "rgba(255,255,255,0)",
           transform: [
-            {translateY: topRectangleAnim},
-            {translateX: width * 0.1},
-            {rotate: '75deg'},
+            { translateY: topRectangleAnim },
+            { translateX: width * 0.1 },
+            { rotate: "75deg" },
           ],
         }}
       />
       <Animated.Image
-        source={require('@/assets/sr-y.png')}
+        source={require("@/assets/sr-y.png")}
         style={{
-          position: 'absolute',
+          position: "absolute",
           bottom: 0,
           left: 0,
           width: width * 0.7,
           height: height * 1.6,
-          backgroundColor: 'rgba(255,255,255,0)',
+          backgroundColor: "rgba(255,255,255,0)",
           transform: [
-            {translateY: bottomRectangleAnim},
-            {translateX: width * 0.1},
-            {rotate: '-104deg'},
+            { translateY: bottomRectangleAnim },
+            { translateX: width * 0.1 },
+            { rotate: "-104deg" },
           ],
         }}
       />
       <Animated.Image
-        source={require('@/assets/sr-x.png')}
+        source={require("@/assets/sr-x.png")}
         style={{
-          position: 'absolute',
+          position: "absolute",
           bottom: 0,
           left: 0,
           width: width * 0.7,
           height: height * 1.6,
-          backgroundColor: 'rgba(255,255,255,0)',
+          backgroundColor: "rgba(255,255,255,0)",
           transform: [
-            {translateY: height * 0.25},
-            {translateX: leftRectangleAnim},
-            {rotate: '-25deg'},
+            { translateY: height * 0.25 },
+            { translateX: leftRectangleAnim },
+            { rotate: "-25deg" },
           ],
         }}
       />
       <Animated.Image
-        source={require('@/assets/sr-x.png')}
+        source={require("@/assets/sr-x.png")}
         style={{
-          position: 'absolute',
+          position: "absolute",
           bottom: 0,
           left: 0,
           width: width * 0.7,
           height: height * 1.6,
-          backgroundColor: 'rgba(255,255,255,0)',
+          backgroundColor: "rgba(255,255,255,0)",
           transform: [
-            {translateY: height * 0.25},
-            {translateX: rightRectangleAnim},
-            {rotate: '-205deg'},
+            { translateY: height * 0.25 },
+            { translateX: rightRectangleAnim },
+            { rotate: "-205deg" },
           ],
         }}
       />
@@ -173,12 +173,13 @@ const SplashPage: React.FC = () => {
           {
             width: contentWidth,
           },
-        ]}>
+        ]}
+      >
         <Animated.Image
           style={[
             styles.logo,
             {
-              transform: [{translateX: logoTranslate}], // Bind horizontal movement to animation
+              transform: [{ translateX: logoTranslate }], // Bind horizontal movement to animation
             },
           ]}
           resizeMode="cover"
@@ -191,7 +192,8 @@ const SplashPage: React.FC = () => {
               {
                 opacity: textOpacity, // Bind opacity to animation
               },
-            ]}>
+            ]}
+          >
             Daily Wellness
           </Animated.Text>
         </View>
@@ -202,7 +204,7 @@ const SplashPage: React.FC = () => {
 
 const styles = StyleSheet.create({
   gradient: {
-    position: 'absolute',
+    position: "absolute",
     flex: 1,
     top: 1,
     left: 1,
@@ -210,17 +212,17 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.primary500,
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   content: {
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     gap: sizes.sizeSm,
     maxHeight: 60,
-    overflow: 'visible',
+    overflow: "visible",
     paddingHorizontal: sizes.sizeMd,
   },
   logo: {
@@ -230,11 +232,11 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   text: {
     zIndex: 9,
-    fontWeight: '700',
+    fontWeight: "700",
     fontSize: 28,
     lineHeight: 38,
     color: colors.white,

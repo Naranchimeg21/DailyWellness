@@ -80,7 +80,11 @@ const CreateAccountPage = ({}: NativeStackScreenProps<
           <Text style={styles.subTitle}>Nickname:</Text>
           <InputForm value={name} onChangeText={(e) => setName(e)} />
           <Text style={styles.subTitle}>Birthday:</Text>
-          <DatePicker mode="date" onDateChanged={setBirthday} />
+          <DatePicker
+            mode="date"
+            defaultDate={birthday || undefined}
+            onDateChanged={setBirthday}
+          />
           {error && (
             <View style={styles.errorContainer}>
               <Text style={styles.errorText}>{error}</Text>
@@ -113,9 +117,10 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    marginTop: 50,
+    // marginTop: 50,
     gap: sizes.sizeSm,
     paddingHorizontal: sizes.sizeMd,
+    paddingVertical: sizes.sizeMd,
   },
   subTitle: {
     fontSize: sizes.h6,

@@ -1,8 +1,8 @@
 //Root
 export enum ROOT_STACK {
-  SPLASH = 'SPLASH',
-  AUTH = 'AUTH',
-  MAIN = 'MAIN',
+  SPLASH = "SPLASH",
+  AUTH = "AUTH",
+  MAIN = "MAIN",
 }
 
 export type RootStackParamList = {
@@ -13,7 +13,7 @@ export type RootStackParamList = {
 
 //Auth
 export enum AUTH_STACK {
-  CREATE_ACCOUNT = 'CreateAccount',
+  CREATE_ACCOUNT = "CreateAccount",
 }
 
 export type AuthStackParamList = {
@@ -22,14 +22,14 @@ export type AuthStackParamList = {
 
 //Main
 export enum MAIN_STACK {
-  MAIN_TABS = 'Main_tabs',
-  DASHBOARD = 'Dashboard',
+  MAIN_TABS = "Main_tabs",
+  DASHBOARD = "Dashboard",
 }
 
 export enum MAIN_TAB_STACK {
-  HOME = 'Home',
-  TRACKER = 'Tracker',
-  HEALTH = 'Health',
+  HOME = "Home",
+  TRACKER = "Tracker",
+  HEALTH = "Health",
 }
 export type MainTabStackParamList = {
   [MAIN_TAB_STACK.HOME]: undefined;
@@ -44,9 +44,9 @@ export type MainStackParamList = {
 
 //Home
 export enum HOME_STACK {
-  LIST = 'List',
-  QUOTE = 'Quote',
-  WEATHER = 'Weather',
+  LIST = "List",
+  QUOTE = "Quote",
+  WEATHER = "Weather",
 }
 export type HomeStackParamList = {
   [HOME_STACK.LIST]: undefined;
@@ -55,8 +55,8 @@ export type HomeStackParamList = {
 };
 
 export enum TRACKER_STACK {
-  LIST = 'List',
-  ADD = 'Add',
+  LIST = "List",
+  ADD = "Add",
 }
 export type TrackerStackParamList = {
   [TRACKER_STACK.LIST]: undefined;
@@ -64,15 +64,17 @@ export type TrackerStackParamList = {
 };
 
 export enum HEALTH_STACK {
-  LIST = 'List',
+  LIST = "List",
 }
 export type HealthStackParamList = {
   [HEALTH_STACK.LIST]: undefined;
 };
 
 export enum DASHBOARD_STACK {
-  LIST = 'List',
+  LIST = "List",
+  FAV = "FAV",
 }
 export type DashboardStackParamList = {
   [DASHBOARD_STACK.LIST]: undefined;
+  [DASHBOARD_STACK.FAV]: undefined;
 };

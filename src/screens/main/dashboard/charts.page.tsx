@@ -1,17 +1,13 @@
 import { Text } from "@/components";
-import { useAppContext } from "@/context/providers/app.provider";
-import { setAppState } from "@/context/reducers/app.reducer";
 import {
   DASHBOARD_STACK,
   DashboardStackParamList,
-  ROOT_STACK,
 } from "@/navigation/screenTypes";
 import { colors, sizes } from "@/utils";
 import ChartIcon from "@/utils/icons/chartIcon";
 import HeartIcon from "@/utils/icons/heartIcon";
 import LogoutIcon from "@/utils/icons/logoutIcon";
 import ReminderIcon from "@/utils/icons/reminderIcon";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
@@ -19,21 +15,6 @@ import { View, StyleSheet, TouchableOpacity } from "react-native";
 const DashboardPage = ({
   navigation,
 }: NativeStackScreenProps<DashboardStackParamList, DASHBOARD_STACK.LIST>) => {
-  const { appDispatch } = useAppContext();
-
-  const clearAllData = async () => {
-    try {
-      await AsyncStorage.clear();
-      appDispatch(
-        setAppState({
-          user: null,
-          rootStack: ROOT_STACK.SPLASH,
-        })
-      );
-    } catch (error) {
-      console.error("Error clearing AsyncStorage:", error);
-    }
-  };
   return (
     <View style={[styles.container]}>
       <TouchableOpacity style={styles.listButton}>
@@ -66,13 +47,13 @@ const DashboardPage = ({
           <Text>Chuhal ajluud</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.listButton} onPress={clearAllData}>
+      <TouchableOpacity style={styles.listButton}>
         <View style={[styles.icon, { borderColor: colors.tertiary }]}>
           <LogoutIcon color={colors.tertiary} />
         </View>
         <View>
           <Text style={styles.text}>Delete account</Text>
-          <Text>Clear all data and delete account</Text>
+          <Text>Delete account</Text>
         </View>
       </TouchableOpacity>
     </View>
